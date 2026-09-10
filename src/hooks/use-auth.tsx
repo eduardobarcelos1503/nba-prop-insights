@@ -10,12 +10,7 @@ import {
 } from "react";
 
 import { cadastrar as cadastrarRequest, login as loginRequest } from "@/services/auth-service";
-import {
-  limparToken,
-  obterToken,
-  salvarToken,
-  sessaoDoToken,
-} from "@/services/token-storage";
+import { limparToken, obterToken, salvarToken, sessaoDoToken } from "@/services/token-storage";
 import type { UsuarioSessao } from "@/types/api";
 
 interface AuthContextValue {

@@ -1,14 +1,5 @@
 import { Link, useNavigate } from "@tanstack/react-router";
-import {
-  History,
-  LayoutDashboard,
-  LogOut,
-  Moon,
-  Shield,
-  Sun,
-  Trophy,
-  Menu,
-} from "lucide-react";
+import { History, LayoutDashboard, LogOut, Moon, Shield, Sun, Trophy, Menu } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";

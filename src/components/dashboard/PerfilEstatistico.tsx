@@ -4,13 +4,19 @@ import { Badge } from "@/components/ui/badge";
 import { formatarNumero, type PerfilEstatistico as Perfil } from "@/lib/stats";
 import type { TipoTemporada } from "@/types/api";
 
-function Metrica({ rotulo, valor, destaque }: { rotulo: string; valor: string; destaque?: boolean }) {
+function Metrica({
+  rotulo,
+  valor,
+  destaque,
+}: {
+  rotulo: string;
+  valor: string;
+  destaque?: boolean;
+}) {
   return (
     <div className="rounded-xl border border-border bg-muted/40 p-4">
       <p className="text-xs uppercase tracking-wide text-muted-foreground">{rotulo}</p>
-      <p
-        className={`mt-1 text-2xl font-semibold tabular-nums ${destaque ? "text-primary" : ""}`}
-      >
+      <p className={`mt-1 text-2xl font-semibold tabular-nums ${destaque ? "text-primary" : ""}`}>
         {valor}
       </p>
     </div>
