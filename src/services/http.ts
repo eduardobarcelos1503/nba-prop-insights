@@ -91,12 +91,11 @@ export async function apiRequest<T>(path: string, options: RequestOptions = {}):
 
   let resposta: Response;
   try {
-    resposta = await fetch(montarUrl(path, query), {
-      method,
-      headers,
-      signal,
-      body: body === undefined ? undefined : JSON.stringify(body),
-    });
+    const init: RequestInit = { method, headers };
+    if (signal) init.signal = signal;
+    if (body !== undefined) init.body = JSON.stringify(body);
+    resposta = await fetch(montarUrl(path, query), init);
+
   } catch {
     throw new ApiError("Não foi possível conectar ao servidor. Verifique sua conexão.", 0);
   }

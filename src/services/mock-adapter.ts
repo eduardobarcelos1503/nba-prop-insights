@@ -8,8 +8,8 @@ import type { TipoTemporada } from "@/types/api";
 import { ApiError } from "./http";
 
 interface Contexto {
-  body?: unknown;
-  query?: Record<string, string | number | undefined>;
+  body: unknown | undefined;
+  query: Record<string, string | number | undefined> | undefined;
 }
 
 export async function resolverMock<T>(
