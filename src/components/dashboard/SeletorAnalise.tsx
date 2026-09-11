@@ -36,12 +36,15 @@ export const AMOSTRAS: Array<{ valor: string; rotulo: string }> = [
 interface SeletorAnaliseProps {
   jogadores: Jogador[];
   carregandoJogadores: boolean;
+  buscandoJogadores: boolean;
+  buscaJogador: string;
   jogadorId: string;
   temporada: string;
   tipo: TipoTemporada;
   amostra: string;
   analisando: boolean;
   onJogador: (id: string) => void;
+  onBuscaJogador: (valor: string) => void;
   onTemporada: (valor: string) => void;
   onTipo: (valor: TipoTemporada) => void;
   onAmostra: (valor: string) => void;
@@ -51,12 +54,15 @@ interface SeletorAnaliseProps {
 export function SeletorAnalise({
   jogadores,
   carregandoJogadores,
+  buscandoJogadores,
+  buscaJogador,
   jogadorId,
   temporada,
   tipo,
   amostra,
   analisando,
   onJogador,
+  onBuscaJogador,
   onTemporada,
   onTipo,
   onAmostra,
@@ -90,30 +96,54 @@ export function SeletorAnalise({
                 </Button>
               </PopoverTrigger>
               <PopoverContent className="w-[min(24rem,90vw)] p-0" align="start">
-                <Command>
-                  <CommandInput placeholder="Digite o nome do jogador..." />
+                <Command shouldFilter={false}>
+                  <CommandInput
+                    placeholder="Digite o nome do jogador..."
+                    value={buscaJogador}
+                    onValueChange={onBuscaJogador}
+                  />
                   <CommandList>
-                    <CommandEmpty>Nenhum jogador encontrado.</CommandEmpty>
-                    <CommandGroup>
-                      {jogadores.map((jogador) => (
-                        <CommandItem
-                          key={jogador.id}
-                          value={jogador.nome}
-                          onSelect={() => {
-                            onJogador(jogador.id);
-                            setAberto(false);
-                          }}
-                        >
-                          <Check
-                            className={cn(
-                              "size-4",
-                              jogador.id === jogadorId ? "opacity-100" : "opacity-0",
-                            )}
-                          />
-                          {jogador.nome}
-                        </CommandItem>
-                      ))}
-                    </CommandGroup>
+                    <CommandEmpty>
+                      {buscandoJogadores
+                        ? "Buscando jogadores da NBA..."
+                        : buscaJogador.trim().length === 1
+                          ? "Digite mais uma letra para pesquisar."
+                          : "Nenhum jogador encontrado."}
+                    </CommandEmpty>
+                    {!buscandoJogadores ? (
+                      <CommandGroup
+                        heading={
+                          buscaJogador.trim().length >= 2
+                            ? "Resultados da NBA"
+                            : "Jogadores em destaque"
+                        }
+                      >
+                        {jogadores.map((jogador) => (
+                          <CommandItem
+                            key={jogador.id}
+                            value={jogador.nome}
+                            onSelect={() => {
+                              onJogador(jogador.id);
+                              onBuscaJogador(jogador.nome);
+                              setAberto(false);
+                            }}
+                          >
+                            <Check
+                              className={cn(
+                                "size-4",
+                                jogador.id === jogadorId ? "opacity-100" : "opacity-0",
+                              )}
+                            />
+                            <span className="flex-1">{jogador.nome}</span>
+                            {jogador.ativo !== undefined ? (
+                              <span className="text-xs text-muted-foreground">
+                                {jogador.ativo ? "Ativo" : "Histórico"}
+                              </span>
+                            ) : null}
+                          </CommandItem>
+                        ))}
+                      </CommandGroup>
+                    ) : null}
                   </CommandList>
                 </Command>
               </PopoverContent>

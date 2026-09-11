@@ -5,6 +5,8 @@ export type LadoAposta = "Over" | "Under";
 export interface Jogador {
   id: string;
   nome: string;
+  nba_player_id?: number;
+  ativo?: boolean;
 }
 
 export interface Partida {

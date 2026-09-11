@@ -8,8 +8,11 @@ import type {
 
 import { apiRequest } from "./http";
 
-export function listarJogadores() {
-  return apiRequest<Jogador[]>("/jogadores", { auth: true });
+export function listarJogadores(busca = "") {
+  return apiRequest<Jogador[]>("/jogadores", {
+    auth: true,
+    query: busca.trim().length >= 2 ? { busca: busca.trim() } : undefined,
+  });
 }
 
 export function buscarPartidas(code: string, temporada: string, tipo: TipoTemporada) {
