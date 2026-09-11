@@ -28,7 +28,10 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
 
   return (
     <ThemeContext.Provider
-      value={{ tema, alternarTema: () => setTema((atual) => (atual === "dark" ? "light" : "dark")) }}
+      value={{
+        tema,
+        alternarTema: () => setTema((atual) => (atual === "dark" ? "light" : "dark")),
+      }}
     >
       {children}
     </ThemeContext.Provider>

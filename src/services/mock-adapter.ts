@@ -42,7 +42,10 @@ export async function resolverMock<T>(
   if (method === "POST" && path === "/jogadores") {
     const dados = body as { nome?: string };
     if (!dados?.nome) throw new ApiError("Informe o nome do jogador.", 400);
-    const code = dados.nome.toLowerCase().replace(/[^a-z]/g, "").slice(0, 8);
+    const code = dados.nome
+      .toLowerCase()
+      .replace(/[^a-z]/g, "")
+      .slice(0, 8);
     return { id: code, nome: dados.nome } as T;
   }
 

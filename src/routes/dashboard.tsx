@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import { BarChart3, Info } from "lucide-react";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
 
 import { EstadoErro, EstadoVazio } from "@/components/common/EstadoVazio";
@@ -58,6 +58,8 @@ interface ConsultaAtiva {
 
 function DashboardPage() {
   const [jogadorId, setJogadorId] = useState("");
+  const [buscaJogador, setBuscaJogador] = useState("");
+  const [buscaDebounced, setBuscaDebounced] = useState("");
   const [temporada, setTemporada] = useState("2025-26");
   const [tipo, setTipo] = useState<TipoTemporada>("Regular Season");
   const [amostra, setAmostra] = useState("10");
@@ -73,9 +75,14 @@ function DashboardPage() {
   const [erros, setErros] = useState<{ linha?: string; odd?: string }>({});
   const [resultado, setResultado] = useState<ResultadoAposta | null>(null);
 
+  useEffect(() => {
+    const timer = window.setTimeout(() => setBuscaDebounced(buscaJogador), 250);
+    return () => window.clearTimeout(timer);
+  }, [buscaJogador]);
+
   const jogadoresQuery = useQuery({
-    queryKey: ["jogadores"],
-    queryFn: listarJogadores,
+    queryKey: ["jogadores", buscaDebounced],
+    queryFn: () => listarJogadores(buscaDebounced),
     staleTime: 5 * 60 * 1000,
   });
 
@@ -169,12 +176,15 @@ function DashboardPage() {
         <SeletorAnalise
           jogadores={jogadoresQuery.data ?? []}
           carregandoJogadores={jogadoresQuery.isLoading}
+          buscandoJogadores={buscaJogador !== buscaDebounced || jogadoresQuery.isFetching}
+          buscaJogador={buscaJogador}
           jogadorId={jogadorId}
           temporada={temporada}
           tipo={tipo}
           amostra={amostra}
           analisando={analiseQuery.isFetching}
           onJogador={setJogadorId}
+          onBuscaJogador={setBuscaJogador}
           onTemporada={setTemporada}
           onTipo={setTipo}
           onAmostra={(valor) => {

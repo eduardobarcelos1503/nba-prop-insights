@@ -95,7 +95,6 @@ export async function apiRequest<T>(path: string, options: RequestOptions = {}):
     if (signal) init.signal = signal;
     if (body !== undefined) init.body = JSON.stringify(body);
     resposta = await fetch(montarUrl(path, query), init);
-
   } catch {
     throw new ApiError("Não foi possível conectar ao servidor. Verifique sua conexão.", 0);
   }

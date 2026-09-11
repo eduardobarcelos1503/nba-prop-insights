@@ -4,12 +4,7 @@
  * Para remover: apague a pasta `src/mocks` e o bloco `if (DEMO_MODE)` em
  * `src/services/http.ts`. Nenhum componente importa este arquivo diretamente.
  */
-import type {
-  Jogador,
-  JogadorNbaResposta,
-  Partida,
-  TipoTemporada,
-} from "@/types/api";
+import type { Jogador, JogadorNbaResposta, Partida, TipoTemporada } from "@/types/api";
 
 const JOGADORES: Array<Jogador & { nbaId: number; base: number; variacao: number }> = [
   { id: "jamesle01", nome: "LeBron James", nbaId: 2544, base: 26, variacao: 8 },

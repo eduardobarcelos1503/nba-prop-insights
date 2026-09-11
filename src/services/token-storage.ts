@@ -47,7 +47,9 @@ export function sessaoDoToken(token: string): UsuarioSessao | null {
   const isAdmin =
     claims.is_admin === true ||
     claims.admin === true ||
-    papeis.some((papel) => papel.toLowerCase() === "admin" || papel.toLowerCase() === "administrador");
+    papeis.some(
+      (papel) => papel.toLowerCase() === "admin" || papel.toLowerCase() === "administrador",
+    );
 
   const email = claims.email ?? claims.sub ?? "";
   return {
