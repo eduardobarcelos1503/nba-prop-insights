@@ -1,24 +1,41 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { useEffect } from "react";
 
-// No head() here: the home route inherits title/description/og/twitter from
-// __root.tsx, and ships no og:image so serve-time hosting can inject the
-// project's social preview (explicit og:image or latest screenshot).
+import { Skeleton } from "@/components/ui/skeleton";
+import { useAuth } from "@/hooks/use-auth";
+
 export const Route = createFileRoute("/")({
+  head: () => ({
+    meta: [
+      { title: "NBA Props Analyzer — análise de props de pontuação" },
+      {
+        name: "description",
+        content:
+          "Dashboard para analisar props de pontuação da NBA: média, desvio padrão, percentual histórico, edge e valor esperado.",
+      },
+      { property: "og:title", content: "NBA Props Analyzer" },
+      {
+        property: "og:description",
+        content: "Analise linhas de pontuação da NBA com estatística e valor esperado.",
+      },
+    ],
+  }),
   component: Index,
 });
 
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
 function Index() {
+  const { autenticado, carregando } = useAuth();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (carregando) return;
+    navigate({ to: autenticado ? "/dashboard" : "/login", replace: true });
+  }, [autenticado, carregando, navigate]);
+
   return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
-    </div>
+    <main className="mx-auto max-w-3xl space-y-4 p-6">
+      <Skeleton className="h-10 w-56" />
+      <Skeleton className="h-64 w-full rounded-xl" />
+    </main>
   );
 }
