@@ -9,10 +9,11 @@ import type {
 import { apiRequest } from "./http";
 
 export function listarJogadores(busca = "") {
-  return apiRequest<Jogador[]>("/jogadores", {
-    auth: true,
-    query: busca.trim().length >= 2 ? { busca: busca.trim() } : undefined,
-  });
+  const termo = busca.trim();
+  return apiRequest<Jogador[]>(
+    "/jogadores",
+    termo.length >= 2 ? { auth: true, query: { busca: termo } } : { auth: true },
+  );
 }
 
 export function buscarPartidas(code: string, temporada: string, tipo: TipoTemporada) {

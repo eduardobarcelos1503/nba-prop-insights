@@ -1,5 +1,7 @@
 # NBA Prop Insights
 
+> Para publicar este frontend, consulte [DEPLOY_VERCEL.md](DEPLOY_VERCEL.md).
+
 Crie exclusivamente o frontend de uma aplicação chamada “NBA Props Analyzer”.
 
 Prioridade absoluta:
