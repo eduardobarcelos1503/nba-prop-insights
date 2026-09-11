@@ -86,6 +86,6 @@ export interface AnaliseSalva {
   percentualHistorico: number;
   edge: number;
   ev: number;
-  casaDeAposta?: string;
-  observacoes?: string;
+  casaDeAposta?: string | undefined;
+  observacoes?: string | undefined;
 }
